@@ -1,0 +1,8 @@
+Entropy
+Copyright © 2026 Brandon Blagg
+All rights reserved.
+
+This repository and its contents are proprietary.
+No permission is granted to copy, modify, distribute,
+publish, sublicense, or commercialize any portion
+of this project without explicit written permission.
