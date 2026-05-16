@@ -9,7 +9,7 @@ foundation sequences while minimizing Entropy.
 Current prototype:
 v2026.05.16.1117
 
-## Status
+## Status 
 Private playtest prototype.
 
 ## Notes
