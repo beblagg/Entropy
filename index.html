@@ -2,7 +2,7 @@
 <!--
 Entropy
 Copyright © 2026 Brandon Blagg. All rights reserved.
-Prototype version 2026.05.17.1853.
+Prototype version 2026.05.18.1918.
 Do not copy, distribute, modify, or commercialize without permission.
 -->
 <html lang="en">
@@ -699,9 +699,9 @@ Do not copy, distribute, modify, or commercialize without permission.
     }
 
     .mobile-hud {
-      margin-top: 10px;
-      margin-bottom: 12px;
       display: none;
+      padding: 10px;
+      margin-top: 10px;
     }
 
     .tutorial-modal {
@@ -838,31 +838,31 @@ Do not copy, distribute, modify, or commercialize without permission.
 
       .hud-row {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 8px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 6px;
       }
 
       .hud-row div {
         background: rgba(255,255,255,.06);
         border: 1px solid rgba(255,255,255,.08);
-        border-radius: 12px;
-        padding: 8px;
+        border-radius: 10px;
+        padding: 6px;
       }
 
       .hud-row span {
         display: block;
-        font-size: 10px;
+        font-size: 8px;
         color: var(--muted);
         text-transform: uppercase;
-        letter-spacing: .11em;
-        line-height: 1.2;
+        letter-spacing: .08em;
+        line-height: 1.15;
       }
 
       .hud-row strong {
         display: block;
-        margin-top: 4px;
-        font-size: 20px;
+        margin-top: 3px;
+        font-size: 17px;
         line-height: 1;
         color: white;
       }
@@ -939,54 +939,46 @@ Do not copy, distribute, modify, or commercialize without permission.
     </p>
 
     <div class="mobile-hud">
-      <div class="hud-row">
-        <div>
-          <span>Entropy</span>
-          <strong id="mobileScore">0</strong>
-        </div>
+  <div class="hud-row">
+    <div>
+      <span>Entropy</span>
+      <strong id="mobileScore">0</strong>
+    </div>
 
-        <div>
-          <span>Foundation Cards</span>
-          <strong id="mobileCards">0 / 52</strong>
-        </div>
-      </div>
+    <div>
+      <span>Foundation</span>
+      <strong id="mobileCards">0 / 52</strong>
+    </div>
 
-      <div class="hud-row">
-        <div>
-          <span>Streak</span>
-          <strong id="mobileStreak">0</strong>
-        </div>
+    <div>
+      <span>Moves</span>
+      <strong id="mobileMoves">0</strong>
+    </div>
+  </div>
 
-        <div>
-          <span>Best</span>
-          <strong id="mobileBestStreak">0</strong>
-        </div>
-      </div>
+  <div class="hud-row">
+    <div>
+      <span>Streak</span>
+      <strong id="mobileStreak">0</strong>
+    </div>
 
-      <div class="hud-row">
-        <div>
-          <span>Moves</span>
-          <strong id="mobileMoves">0</strong>
-        </div>
+    <div>
+      <span>Best</span>
+      <strong id="mobileBestStreak">0</strong>
+    </div>
 
-        <div>
-          <span>Draw Pile</span>
-          <strong id="mobileDrawPile">0</strong>
-        </div>
-      </div>
+    <div>
+      <span>Draw</span>
+      <strong id="mobileDrawPile">0</strong>
+    </div>
+  </div>
 
-      <div class="hud-buttons">
-  <button onclick="confirmNewGame()">New Game</button>
-  <button class="secondary undo-btn" onclick="undo()">Undo</button>
-  <button class="secondary" onclick="openTutorial()">How to Play</button>
-  <button
-    class="secondary"
-    id="mobileCopyResultsBtn"
-    onclick="copyResults()"
-  >
-    Copy Results
-  </button>
-</div>
+  <div class="hud-buttons">
+    <button onclick="confirmNewGame()">New Game</button>
+    <button class="secondary undo-btn" onclick="undo()">Undo</button>
+    <button class="secondary" onclick="openTutorial()">How to Play</button>
+    <button class="secondary" id="mobileCopyResultsBtn" onclick="copyResults()">Copy Results</button>
+  </div>
 </div>
 </div>
 
