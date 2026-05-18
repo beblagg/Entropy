@@ -2,7 +2,7 @@
 <!--
 Entropy
 Copyright © 2026 Brandon Blagg. All rights reserved.
-Prototype version 2026.05.18.1918.
+Prototype version 2026.05.18.1942.
 Do not copy, distribute, modify, or commercialize without permission.
 -->
 <html lang="en">
@@ -780,6 +780,16 @@ Do not copy, distribute, modify, or commercialize without permission.
         padding-top: 14px;
       }
 
+      .board-wrap .section-label:nth-of-type(2) {
+        display: none;
+      }
+
+      .grid {
+      border-top: 1px solid rgba(255,255,255,.06);
+      margin-top: 14px;
+      padding-top: 14px;
+    }
+
       .hud-row:first-child div:first-child {
         background:
           linear-gradient(
@@ -986,7 +996,7 @@ Do not copy, distribute, modify, or commercialize without permission.
     <div class="board-wrap">
       <div class="section-label">Foundations</div>
       <div id="foundations" class="foundations"></div>
-      <div class="section-label">Grid</div>
+      <!--<div class="section-label">Grid</div>-->
       <div id="grid" class="grid"></div>
     </div>
 
