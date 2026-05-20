@@ -2,7 +2,7 @@
 <!--
 Entropy
 Copyright © 2026 Brandon Blagg. All rights reserved.
-Prototype version 2026.05.18.1942.
+Prototype version 2026.05.19.2257.
 Do not copy, distribute, modify, or commercialize without permission.
 -->
 <html lang="en">
@@ -210,7 +210,7 @@ Do not copy, distribute, modify, or commercialize without permission.
         inset 0 -1px 0 rgba(0,0,0,.18);
     }
 
-      border: 1px solid rgba(255,255,255,.05);
+
     }
 
     .cell::after {
@@ -228,6 +228,7 @@ Do not copy, distribute, modify, or commercialize without permission.
     .card {
       width: var(--card-w);
       height: var(--card-h);
+      transform: translateY(0);
       background:
         linear-gradient(180deg, #fffdfa 0%, #f6f0e5 100%);
       color: var(--ink);
@@ -258,9 +259,14 @@ Do not copy, distribute, modify, or commercialize without permission.
       pointer-events: none;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.5);
+    @media (hover: hover) and (pointer: fine) {
+      .card:hover:not(.selected):not(.dragging) {
+        transform: translateY(-3px);
+
+        box-shadow:
+          0 12px 24px rgba(0,0,0,.36),
+          inset 0 0 0 1px rgba(255,255,255,.5);
+      }
     }
 
 
@@ -369,14 +375,6 @@ Do not copy, distribute, modify, or commercialize without permission.
       user-select: none;
     }
 
-      font-size: 10px;
-      opacity: .58;
-      text-transform: uppercase;
-      letter-spacing: .11em;
-      font-weight: 800;
-      margin-top: 4px;
-      z-index: 1;
-    }
 
     .legal {
       border-color: rgba(244,211,94,.95) !important;
@@ -469,6 +467,20 @@ Do not copy, distribute, modify, or commercialize without permission.
       color: white;
     }
 
+    .message,
+    .rules,
+    .log {
+      display: none;
+    }
+
+    .profile-actions {
+        margin-top: 18px;
+      }
+
+      .danger-button {
+        width: 100%;
+      }
+
     .mini-stat {
       display: flex;
       justify-content: space-between;
@@ -488,6 +500,169 @@ Do not copy, distribute, modify, or commercialize without permission.
       color: white;
       font-weight: 800;
     }
+
+    .settings-row,
+    .settings-action-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+    }
+
+    .settings-action-row {
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+.settings-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-info-button {
+  width: 18px;
+  height: 18px;
+
+  border-radius: 999px;
+
+  padding: 0;
+
+  min-height: unset;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: .75;
+}
+
+.settings-info-bubble {
+  position: absolute;
+  top: 86px;
+  left: 24px;
+  right: 24px;
+
+  display: none;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: rgba(10,12,16,.82);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(10px);
+
+  color: rgba(230,235,240,.88);
+  font-size: 13px;
+  line-height: 1.45;
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  z-index: 10;
+}
+
+.settings-info-bubble.open {
+  display: block;
+}
+
+.settings-info-close {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 999px;
+
+  padding: 0;
+
+  min-height: unset;
+
+  font-size: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: .7;
+}
+
+.settings-info-bubble {
+  position: absolute;
+
+  top: 86px;
+  left: 24px;
+  right: 24px;
+
+  display: none;
+
+  padding: 14px 16px 14px 16px;
+}
+
+.settings-action-button {
+  min-height: 36px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.settings-label {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.settings-subtext {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.toggle-switch {
+  position: relative;
+
+  width: 56px;
+  height: 32px;
+
+  border-radius: 999px;
+
+  padding: 0;
+
+  background: rgba(255,255,255,.10);
+
+  border: 1px solid rgba(255,255,255,.12);
+
+  transition:
+    background .18s ease,
+    border-color .18s ease;
+}
+
+.toggle-knob {
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 999px;
+
+  background: white;
+
+  transition: transform .18s ease;
+}
+
+.toggle-switch.active {
+  background: rgba(244,211,94,.22);
+  border-color: rgba(244,211,94,.34);
+}
+
+.toggle-switch.active .toggle-knob {
+  transform: translateX(24px);
+}
 
     .entropy-pop {
       position: fixed;
@@ -704,6 +879,41 @@ Do not copy, distribute, modify, or commercialize without permission.
       margin-top: 10px;
     }
 
+    .mobile-top-actions {
+      display: none;
+    }
+
+    .icon-button {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      padding: 0;
+
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1;
+
+      min-height: unset;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        position: relative;
+      }
+
+      .mobile-top-actions {
+        display: flex;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        gap: 6px;
+      }
+    }
+
     .tutorial-modal {
       position: fixed;
       inset: 0;
@@ -733,7 +943,7 @@ Do not copy, distribute, modify, or commercialize without permission.
           rgba(255,255,255,.025)
         ),
         rgba(20,24,28,.94);
-
+      position: relative;
       border: 1px solid rgba(190,200,215,.14);
       border-radius: 24px;
       padding: 24px;
@@ -741,6 +951,28 @@ Do not copy, distribute, modify, or commercialize without permission.
       box-shadow:
         0 24px 60px rgba(0,0,0,.55),
         inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    .tutorial-x {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+
+      width: 32px;
+      height: 32px;
+
+      border-radius: 999px;
+
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      min-height: unset;
     }
 
     .tutorial-slide-title {
@@ -764,6 +996,27 @@ Do not copy, distribute, modify, or commercialize without permission.
 
     .tutorial-controls button {
       flex: 1;
+    }
+
+    .tutorial-example {
+      background: rgba(255,255,255,.05);
+
+      border: 1px solid rgba(255,255,255,.08);
+
+      border-radius: 14px;
+
+      padding: 12px 14px;
+
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      line-height: 1.7;
+
+      color: rgba(255,255,255,.92);
+    }
+
+    .tutorial-placeholder {
+    visibility: hidden;
+    pointer-events: none;
     }
 
     .tutorial-close {
@@ -901,9 +1154,18 @@ Do not copy, distribute, modify, or commercialize without permission.
         --gap: 7px;
       }
       .sidebar { min-height: auto; }
+      .profile-card {
+          display: none;
+        }
       .mobile-hide-status {
       display: none;
         }
+      .mobile-hide-utilities {
+        display: none;
+      }
+      .sidebar {
+        display: none;
+      }
       .suit { font-size: 28px; }
       .rank { font-size: 20px; }
       .movement-grid { grid-template-columns: 1fr; }
@@ -944,6 +1206,33 @@ Do not copy, distribute, modify, or commercialize without permission.
 <body>
   <div class="topbar">
     <h1>Entropy</h1>
+    <div class="mobile-top-actions">
+
+  <button
+    class="icon-button"
+    onclick="openTutorial()"
+    aria-label="Info"
+  >
+    ?
+  </button>
+
+  <button
+    class="icon-button"
+    onclick="openSettingsModal()"
+    aria-label="Settings"
+  >
+    ⛭
+  </button>
+
+  <button
+    class="icon-button"
+    onclick="openProfileModal()"
+    aria-label="Profile"
+  >
+    👤
+  </button>
+
+</div>
     <p class="tagline">
       A solo abstract strategy game. Move cards through the 4x4 grid using chess piece-like movements to sort cards into the four foundation stacks. Minimize Entropy by building as close to perfectly-ascending stacks as you can.
     </p>
@@ -986,8 +1275,9 @@ Do not copy, distribute, modify, or commercialize without permission.
   <div class="hud-buttons">
     <button onclick="confirmNewGame()">New Game</button>
     <button class="secondary undo-btn" onclick="undo()">Undo</button>
-    <button class="secondary" onclick="openTutorial()">How to Play</button>
-    <button class="secondary" id="mobileCopyResultsBtn" onclick="copyResults()">Copy Results</button>
+    <button class="secondary copy-results-btn" id="mobileCopyResultsBtn" onclick="copyResults()">
+  Copy State
+</button>
   </div>
 </div>
 </div>
@@ -1005,7 +1295,10 @@ Do not copy, distribute, modify, or commercialize without permission.
         <button onclick="confirmNewGame()">New Game</button>
         <button class="secondary undo-btn" onclick="undo()">Undo</button>
         <button class="secondary" onclick="openTutorial()">How to Play</button>
-        <button class="secondary" id="copyResultsBtn" onclick="copyResults()">Copy Results</button>
+        <button class="secondary" onclick="openSettingsModal()">Settings</button>
+        <button class="secondary copy-results-btn" id="copyResultsBtn" onclick="copyResults()">
+  Copy State
+</button>
       </div>
       <div class="score-card mobile-hide-status">
         <div class="stat"><strong>Entropy</strong><span id="score">0</span></div>
@@ -1021,7 +1314,7 @@ Do not copy, distribute, modify, or commercialize without permission.
         <div class="mini-stat"><span>Foundation Cards</span><strong id="foundationCards">0 / 52</strong></div>
       </div>
 
-      <div class="analytics-card">
+      <div class="analytics-card profile-card">
         <h3>Profile</h3>
         <div class="mini-stat"><span>Best Score</span><strong id="profileBestScore">—</strong></div>
         <div class="mini-stat"><span>Average Entropy</span><strong id="profileAverageEntropy">—</strong></div>
@@ -1029,32 +1322,8 @@ Do not copy, distribute, modify, or commercialize without permission.
         <div class="mini-stat"><span>Longest Streak</span><strong id="profileLongestStreak">0</strong></div>
       </div>
 
-      <div class="objective">
-        <strong>Objective: Minimize Entropy</strong>
-        Build ascending foundation sequences. Empty foundations may begin with any card for 0 entropy. Every later foundation placement adds entropy based on how far it misses the ideal next rank (6->7 adds 0 entropy, 6->8 adds +1 entropy, and so on).
-      </div>
 
-      <div class="rules-card">
-        <strong>How to play</strong>
-        <div class="fine-print">
-          Cards move along the grid like chess pieces according to suit (below). Select a card, then click a highlighted grid space or foundation slot to move it. Cards are locked once placed in a foundation slot. A card from the draw pile will fill empty slots on the back row.
-        </div>
-
-        <div class="movement-grid">
-          <div class="movement-item"><b>♠ Spades</b>Pawn: Forward +1; forward/diagonal into Foundation</div>
-          <div class="movement-item"><b>♣ Clubs</b>Bishop: Diagonals</div>
-          <div class="movement-item"><b>♦ Diamonds</b>Knight: L-Shape</div>
-          <div class="movement-item"><b>♥ Hearts</b>Rook: Rows/Columns</div>
-          <div class="movement-item"><b>Q; Any Suit</b>Queen Movement</div>
-          <div class="movement-item"><b>K; Any Suit</b>King Movement</div>
-        </div>
-
-        <div class="fine-print">
-          Sliding pieces cannot pass through occupied cards. Knights jump. C3 starts empty. The back row refills whenever a card moves out of it. Foundation order cycles A → 2 → ... → K → A.
-        </div>
-      </div>
-
-      <div class="buttons">
+      <div class="buttons mobile-hide-utilities">
 
         <button class="secondary" onclick="resetStats()">Reset Stats</button>
         <button class="secondary" onclick="copyGameLog()">Copy Game Log</button>
@@ -1063,27 +1332,115 @@ Do not copy, distribute, modify, or commercialize without permission.
 
     <div id="message" class="message"></div>
 
-      <div class="rules"><strong>Full move log</strong></div>
+      <div class="rules">
+        <strong>Full move log</strong></div>
       <div id="log" class="log"></div>
     </aside>
   </div>
 
   <div id="tutorialModal" class="tutorial-modal">
     <div class="tutorial-content">
-
+      <button class="tutorial-x" onclick="closeTutorial()">
+        ✕
+      </button>
       <div id="tutorialSlide"></div>
 
-      <div class="tutorial-controls">
-        <button class="secondary" onclick="prevTutorialSlide()">Previous</button>
-        <button onclick="nextTutorialSlide()">Next</button>
-      </div>
-
-      <button class="tutorial-close" onclick="closeTutorial()">
-        Start Playing
-      </button>
+      <div id="tutorialControls" class="tutorial-controls"></div>
 
     </div>
   </div>
+
+  <div id="settingsModal" class="tutorial-modal">
+  <div class="tutorial-content">
+    <button class="tutorial-x" onclick="closeSettingsModal()">✕</button>
+
+    <div class="tutorial-slide-title">Settings</div>
+
+    <div class="tutorial-slide-body">
+      <div class="settings-row">
+        <div>
+          <div class="settings-label-row">
+            <div class="settings-label">Undo Mode</div>
+            <button class="mini-info-button" onclick="toggleUndoInfo()">i</button>
+          </div>
+
+          <div class="settings-subtext" id="undoModeLabel">Challenge</div>
+        </div>
+
+        <button id="undoToggle" class="toggle-switch" onclick="toggleUndoMode()">
+          <div class="toggle-knob"></div>
+        </button>
+      </div>
+      <div id="undoInfoBubble" class="settings-info-bubble">
+
+  <button
+    class="settings-info-close"
+    onclick="toggleUndoInfo()"
+    aria-label="Close"
+  >
+    ✕
+  </button>
+
+  Challenge Mode only allows undoing the immediately previous move and disables undo after a back-row draw is revealed.<br><br>
+
+  Unlimited Mode allows stepping backward through previous moves.
+
+</div>
+      <div class="settings-action-row">
+        <div>
+          <div class="settings-label">Export Run Data</div>
+          <div class="settings-subtext">Copy detailed game log</div>
+        </div>
+
+        <button class="secondary settings-action-button" onclick="copyGameLog()">
+          Copy
+        </button>
+      </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  <div id="profileModal" class="tutorial-modal">
+  <div class="tutorial-content">
+
+    <button class="tutorial-x" onclick="closeProfileModal()">✕</button>
+
+    <div class="tutorial-slide-title">Profile</div>
+
+    <div class="tutorial-slide-body">
+      <div class="mini-stat">
+        <span>Best Score</span>
+        <strong id="modalBestScore">—</strong>
+      </div>
+
+      <div class="mini-stat">
+        <span>Average Entropy</span>
+        <strong id="modalAverageEntropy">—</strong>
+      </div>
+
+      <div class="mini-stat">
+        <span>Completed Plays</span>
+        <strong id="modalCompletedRuns">0</strong>
+      </div>
+
+      <div class="mini-stat">
+        <span>Longest Streak</span>
+        <strong id="modalLongestStreak">0</strong>
+      </div>
+
+      <div class="profile-actions">
+        <button class="secondary danger-button" onclick="resetStats(); closeProfileModal();">
+          Reset Stats
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
   <div id="completionModal" class="tutorial-modal">
   <div class="tutorial-content">
@@ -1126,9 +1483,13 @@ Do not copy, distribute, modify, or commercialize without permission.
     let moves = 0;
     let undoSnapshot = null;
     let undoAvailable = false;
+    let undoMode = localStorage.getItem("entropy.undoMode") || "challenge";
+    let usedUnlimitedUndoThisRun = false;
+    let history = [];
     let logEntries = [];
     let originalLayout = [];
     let originalShuffle = [];
+    let entropyProfile = {};
     let dragging = null;
     let dragGhost = null;
     let dragHover = null;
@@ -1189,6 +1550,7 @@ function confirmNewGame() {
   }
 }
 
+
     function completedFoundationCardCount() {
       return foundations.reduce((sum, stack) => sum + stack.length, 0);
     }
@@ -1214,6 +1576,7 @@ function confirmNewGame() {
 
         saveProfileStats();
         setMessage(`Run complete. Final entropy: ${score}. Profile stats updated.`);
+        render();
         openCompletionModal();
       }
     }
@@ -1261,8 +1624,11 @@ function confirmNewGame() {
       selected = null;
       score = 0;
       moves = 0;
+      history = [];
+      entropyProfile = {};
       undoSnapshot = null;
       undoAvailable = false;
+      usedUnlimitedUndoThisRun = undoMode === "unlimited";
       logEntries = [];
       currentPerfectStreak = 0;
       runBestPerfectStreak = 0;
@@ -1274,7 +1640,7 @@ function confirmNewGame() {
     }
 
     function snapshot() {
-      return JSON.stringify({ drawPile, grid, foundations, selected, score, moves, logEntries, originalLayout, originalShuffle, currentPerfectStreak, runBestPerfectStreak, runCompleted });
+      return JSON.stringify({ drawPile, grid, foundations, selected, score, moves, logEntries, originalLayout, originalShuffle, currentPerfectStreak, runBestPerfectStreak, runCompleted, usedUnlimitedUndoThisRun, entropyProfile });
     }
 
     function restore(state) {
@@ -1291,20 +1657,94 @@ function confirmNewGame() {
       currentPerfectStreak = s.currentPerfectStreak || 0;
       runBestPerfectStreak = s.runBestPerfectStreak || 0;
       runCompleted = s.runCompleted || false;
+      usedUnlimitedUndoThisRun = s.usedUnlimitedUndoThisRun ?? false;
+      entropyProfile = s.entropyProfile || {};
       render();
     }
 
     function saveUndoSnapshot() {
+      if (undoMode === "unlimited") {
+        history.push(snapshot());
+        undoAvailable = true;
+        return;
+      }
+
       undoSnapshot = snapshot();
       undoAvailable = true;
     }
 
+    function updateSettingsDisplay() {
+      const label = document.getElementById("undoModeLabel");
+      const toggle = document.getElementById("undoToggle");
+
+      if (!label || !toggle) return;
+
+      const challenge = undoMode === "challenge";
+
+      label.textContent =
+        challenge
+          ? "Challenge"
+          : "Unlimited";
+
+      toggle.classList.toggle("active", challenge);
+    }
+
+      function openSettingsModal() {
+        updateSettingsDisplay();
+        document.getElementById("settingsModal").classList.add("open");
+      }
+
+      function toggleUndoInfo() {
+        document
+          .getElementById("undoInfoBubble")
+          .classList.toggle("open");
+      }
+
+      function closeSettingsModal() {
+        document.getElementById("settingsModal").classList.remove("open");
+      }
+
+      function toggleUndoMode() {
+        undoMode =
+          undoMode === "challenge" ? "unlimited" : "challenge";
+
+        localStorage.setItem("entropy.undoMode", undoMode);
+
+        if (undoMode === "unlimited") {
+          usedUnlimitedUndoThisRun = true;
+        }
+
+        undoSnapshot = null;
+        history = [];
+        undoAvailable = false;
+
+        updateSettingsDisplay();
+        render();
+      }
+
     function clearUndo() {
+      if (undoMode === "unlimited") return;
+
       undoSnapshot = null;
       undoAvailable = false;
     }
 
     function undo() {
+      if (runCompleted) return;
+
+      if (undoMode === "unlimited") {
+        if (!history.length) {
+          setMessage("Nothing to undo.");
+          return;
+        }
+
+        restore(history.pop());
+        undoAvailable = history.length > 0;
+        setMessage("Undid last move.");
+        render();
+        return;
+      }
+
       if (!undoAvailable || !undoSnapshot) {
         setMessage("Undo is only available for the immediately previous move, and not after a back-row draw is revealed.");
         return;
@@ -1473,7 +1913,7 @@ function confirmNewGame() {
       const fromNotation = coordText(selected.r, selected.c);
       const toNotation = coordText(-1, i);
       const entropy = scoreFoundationMove(card, foundations[i]);
-
+      entropyProfile[entropy] = (entropyProfile[entropy] || 0) + 1;
       foundations[i].push(card);
       grid[selected.r][selected.c] = null;
       maybeRefill(selected.r, selected.c);
@@ -2002,7 +2442,19 @@ gain.gain.exponentialRampToValueAtTime(
       document.getElementById("mobileDrawPile").textContent = drawPile.length;
 
       document.querySelectorAll(".undo-btn").forEach(button => {
-        button.disabled = !undoAvailable;
+        button.disabled =
+          runCompleted ||
+          (undoMode === "challenge" && !undoAvailable) ||
+          (undoMode === "unlimited" && history.length === 0);
+      });
+
+      const shareLabel =
+        completedFoundationCardCount() === 52
+          ? "Copy Results"
+          : "Copy State";
+
+      document.querySelectorAll(".copy-results-btn").forEach(button => {
+        button.textContent = shareLabel;
       });
 
       const logEl = document.getElementById("log");
@@ -2025,6 +2477,17 @@ gain.gain.exponentialRampToValueAtTime(
       }).join("\n");
     }
 
+    function entropyProfileText() {
+      const entries = Object.entries(entropyProfile)
+        .map(([entropy, count]) => [Number(entropy), count])
+        .sort((a, b) => a[0] - b[0]);
+
+      if (!entries.length) return "None";
+
+      return entries
+        .map(([entropy, count]) => `+${entropy}×${count}`)
+        .join(" | ");
+    }
 
     function buildGameLogText() {
 
@@ -2032,9 +2495,9 @@ gain.gain.exponentialRampToValueAtTime(
         completedFoundationCardCount() === 52;
 
       return [
-        "Entropy",
-        "",
         `Entropy: ${score}`,
+        "",
+        `Entropy Profile: ${entropyProfileText()}`,
         `Moves: ${moves}`,
         `Draw pile: ${drawPile.length}`,
         `Foundation cards: ${completedFoundationCardCount()} / 52`,
@@ -2064,36 +2527,110 @@ gain.gain.exponentialRampToValueAtTime(
       ].join("\n");
     }
 
+    function buildProgressText() {
+      const foundationTops = foundations
+        .map(stack => {
+          const top = stack[stack.length - 1];
+          return top ? cardText(top) : "__";
+        })
+        .join(" | ");
+
+      return [
+        `Entropy: ${score}`,
+        "",
+        `Entropy Profile: ${entropyProfileText()}`,
+        `Foundation Cards: ${completedFoundationCardCount()} / 52`,
+        "",
+        "Board State:",
+        formattedFoundationAndGridText(),
+        "",
+        `Draw Pile: ${drawPile.length}`,
+        `Moves: ${moves}`,
+        `Streak (Best/Current): ${runBestPerfectStreak}/${currentPerfectStreak}`,
+        `Mode: ${runUndoModeText()}`
+      ].join("\n");
+    }
+
+    function runUndoModeText() {
+      return usedUnlimitedUndoThisRun
+        ? "Unlimited"
+        : "Challenge";
+    }
+
+    function displayCardOrBlank(card) {
+      return card ? cardText(card) : "__";
+    }
+
+    function padCell(text) {
+      return text.padEnd(3, " ");
+    }
+
+    function formattedFoundationAndGridText() {
+      const foundationLine = foundations
+        .map(stack => {
+          const top = stack[stack.length - 1];
+          return padCell(top ? cardText(top) : "__");
+        })
+        .join(" | ");
+
+      const gridLines = grid.map(row => {
+        return row
+          .map(card => padCell(card ? cardText(card) : "__"))
+          .join(" | ");
+      });
+
+      return [
+        foundationLine,
+        "---------------------",
+        ...gridLines
+      ].join("\n");
+    }
+
     function buildResultsText() {
       const foundationTops = foundations
-      .map(stack => {
-        const top = stack[stack.length - 1];
-        return top ? cardText(top) : "__";
-      })
-      .join(" | ");
+        .map(stack => {
+          const top = stack[stack.length - 1];
+          return top ? cardText(top) : "__";
+        })
+        .join(" | ");
 
-  return [
-    "Entropy Run Result",
-    `Completed: ${completedFoundationCardCount() === 52 ? "Yes" : "No"}`,
-    `Entropy: ${score}`,
-    `Foundation Cards: ${completedFoundationCardCount()} / 52`,
-    `Draw Pile: ${drawPile.length}`,
-    `Moves: ${moves}`,
-    `Best Streak: ${runBestPerfectStreak}`,
-    `Current Streak: ${currentPerfectStreak}`,
-    `Foundations: ${foundationTops}`
-  ].join("\n");
+      return [
+        "Entropy Result",
+        `Final Entropy: ${score}`,
+        `Foundations: ${foundationTops}`,
+        `Moves: ${moves}`,
+        `Best Streak: ${runBestPerfectStreak}`,
+        `Mode: ${runUndoModeText()}`
+      ].join("\n");
+    }
+
+    function compactGridStateText() {
+  return grid
+    .map((row, i) => {
+      const rowNum = 4 - i;
+
+      return `${rowNum}: ` +
+        row.map(card => card ? cardText(card) : "__").join(" ");
+    })
+    .join("\n");
 }
 
     async function copyResults() {
-      const text = buildResultsText();
+      const complete = completedFoundationCardCount() === 52;
+      const text = complete
+        ? buildResultsText()
+        : buildProgressText();
 
       try {
         await navigator.clipboard.writeText(text);
-        setMessage("Run results copied to clipboard.");
+        setMessage(
+          complete
+            ? "Run results copied to clipboard."
+            : "Current State copied to clipboard."
+        );
       } catch (err) {
         console.log(text);
-        setMessage("Clipboard copy failed, but the results were printed to the browser console.");
+        setMessage("Clipboard copy failed, but the text was printed to the browser console.");
       }
     }
 
@@ -2116,6 +2653,28 @@ gain.gain.exponentialRampToValueAtTime(
     function closeTutorial() {
       localStorage.setItem("entropy.v2026.05.seenTutorial", "true");
       document.getElementById("tutorialModal").classList.remove("open");
+    }
+
+    function openProfileModal() {
+      const avg = averageEntropy();
+
+      document.getElementById("modalBestScore").textContent =
+        profileStats.bestScore === null ? "—" : profileStats.bestScore;
+
+      document.getElementById("modalAverageEntropy").textContent =
+        avg === null ? "—" : avg.toFixed(1);
+
+      document.getElementById("modalCompletedRuns").textContent =
+        profileStats.completedRuns;
+
+      document.getElementById("modalLongestStreak").textContent =
+        profileStats.longestStreak;
+
+      document.getElementById("profileModal").classList.add("open");
+    }
+
+    function closeProfileModal() {
+      document.getElementById("profileModal").classList.remove("open");
     }
 
     function openCompletionModal() {
@@ -2182,33 +2741,94 @@ function closeCompletionModal() {
 
     const tutorialSlides = [
       {
-        title: "Welcome to Entropy",
+        title: "Minimize Entropy",
+        body: `
+              Build ascending foundation stacks while accumulating as little entropy as possible.<br><br>
+
+              <strong>Perfect placements (+1 rank) add 0 entropy.<br><br>
+              Imperfect placements add entropy according to the difference in ranks:</strong><br><br>
+
+              <div class="tutorial-example">
+                6 → 7 = +0<br>
+                6 → 8 = +1<br>
+                6 → J = +4
+              </div>
+
+              <br>
+
+              The game ends when all 52 cards are placed into the foundations.
+            `
+      },
+
+        {
+          title: "Foundations",
+          body:
+                `
+          Foundations are the four stacks at the top of the board.<br><br>
+
+          Move cards there to build ascending sequences and minimize entropy.<br><br>
+
+          <div class="tutorial-example">
+            K → A → 2 → 3 = +0 entropy<br>
+            K → A → 3 → 6 = +3 entropy
+          </div>
+
+          <br>
+
+          <strong>Any card can start a Foundation for +0 entropy</strong>
+        `
+        },
+
+      {
+        title: "Movement",
         body:
-          "Move cards through the 4x4 grid using chess-like movement rules. Your goal is to minimize Entropy by building ascending foundation stacks."
+        `
+        Cards move through the grid like chess pieces (Move explanations on next slide.).<br><br>
+
+        <div class="tutorial-example">
+          ♠ Spades = ♟ Pawns<br>
+          ♣ Clubs = ♝ Bishops<br>
+          ♦ Diamonds = ♞ Knights<br>
+          ♥ Hearts = ♜ Rooks<br>
+          ♕ Queens and ♔ Kings of any suit move like their chess counterparts.
+        </div>
+
+        <br>
+
+        When a card is advanced from the back row, a card from the deck replaces it.
+      `
       },
 
       {
         title: "Movement",
         body:
-          "Each suit moves differently. Spades move like pawns (forward only; can also move diagonally into foundation slots), Clubs like bishops (diagonally), Diamonds like knights (L-shaped pattern), and Hearts like rooks (along rows/columns). Queens and Kings, like their chess counterparts, move in any direction."
-      },
+        `
+        Cards may only move into empty grid spaces or reachable foundation slots.<br><br>
 
-      {
-        title: "Foundations",
-        body:
-          "Once a card enters a foundation slot, it is locked and can no longer be moved."
-      },
+        <div class="tutorial-example">
+          ♟ Pawns move forward-only +1, can move into foundations forward or diagonally.<br>
+          ♝ Bishops move diagonally only.<br>
+          ♞ Knights jump in an L-shape (e.g.↑2→1).<br>
+          ♜ Rooks move in straight lines.<br>
+          ♕ Queens and ♔ Kings of any suit move freely.
+        </div>
 
-      {
-        title: "Entropy",
-        body:
-          "Empty foundations may begin with any card for 0 entropy. Every later placement adds entropy based on how far it misses the ideal next ascending rank (6->7 adds 0 Entropy, 6->8 adds +1 Entropy, and so on)."
+        <br>
+
+        Sliding pieces cannot move through occupied cards.
+      `
       },
 
       {
         title: "Strategy",
         body:
-          "Protect card mobility. Advance cards from the back row carefully. Beware the end game. Have fun!"
+        `
+        Manage your grid carefully.<br>
+        Advance cards from the back row strategically.<br>
+        Beware the endgame.<br><br>
+
+        <strong>Some runs can be perfected. Others only survived.</strong>
+      `
       }
     ];
 
@@ -2220,6 +2840,16 @@ function closeCompletionModal() {
       document.getElementById("tutorialSlide").innerHTML = `
         <div class="tutorial-slide-title">${slide.title}</div>
         <div class="tutorial-slide-body">${slide.body}</div>
+      `;
+
+      document.getElementById("tutorialControls").innerHTML = `
+      ${tutorialIndex > 0
+        ? `<button class="secondary" onclick="prevTutorialSlide()">Previous</button>`
+        : `<button class="secondary tutorial-placeholder">Previous</button>`}
+
+        ${tutorialIndex < tutorialSlides.length - 1
+          ? `<button onclick="nextTutorialSlide()">Next</button>`
+          : `<button onclick="closeTutorial()">Begin</button>`}
       `;
     }
 
