@@ -2595,9 +2595,10 @@ gain.gain.exponentialRampToValueAtTime(
         .join(" | ");
 
       return [
-        "Entropy Result",
         `Final Entropy: ${score}`,
-        `Foundations: ${foundationTops}`,
+        "",
+        `Entropy Profile: ${entropyProfileText()}`,
+        `Foundations: ${completedFoundationCardCount()} / 52`,
         `Moves: ${moves}`,
         `Best Streak: ${runBestPerfectStreak}`,
         `Mode: ${runUndoModeText()}`
