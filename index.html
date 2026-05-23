@@ -2,7 +2,7 @@
 <!--
 Entropy
 Copyright © 2026 Brandon Blagg. All rights reserved.
-Prototype version 2026.05.19.2257.
+Prototype version 2026.05.23.1521.
 Do not copy, distribute, modify, or commercialize without permission.
 -->
 <html lang="en">
@@ -56,6 +56,7 @@ Do not copy, distribute, modify, or commercialize without permission.
     .topbar {
       max-width: 1080px;
       margin: 0 auto 20px;
+      position: relative;
     }
 
     h1 {
@@ -211,9 +212,7 @@ Do not copy, distribute, modify, or commercialize without permission.
     }
 
 
-    }
-
-    .cell::after {
+    /*.cell::after {
       content: attr(data-coord);
       position: absolute;
       left: 6px;
@@ -223,7 +222,7 @@ Do not copy, distribute, modify, or commercialize without permission.
       font-weight: 800;
       letter-spacing: .04em;
       pointer-events: none;
-    }
+    }*/
 
     .card {
       width: var(--card-w);
@@ -433,6 +432,59 @@ Do not copy, distribute, modify, or commercialize without permission.
     }
 
 
+    .title-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .mode-switch {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: flex;
+      gap: 4px;
+
+      padding: 4px;
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+
+      backdrop-filter: blur(6px);
+    }
+
+    .mode-switch button {
+      min-height: unset;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      box-shadow: none;
+      font-size: 13px;
+    }
+
+    .mode-switch button.active {
+      background: var(--accent);
+      color: #17150d;
+    }
+
+    .mobile-label {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .desktop-label {
+        display: none;
+      }
+
+      .mobile-label {
+        display: inline;
+      }
+    }
+
+
     .sidebar {
       background:
         linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.045));
@@ -467,6 +519,55 @@ Do not copy, distribute, modify, or commercialize without permission.
       color: white;
     }
 
+
+    .profile-section-title {
+      text-align: center;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .profile-section {
+      margin-top: 22px;
+      width: 100%;
+    }
+
+    .daily-chart-row {
+      display: grid;
+      grid-template-columns: 32px 1fr 24px;
+      align-items: center;
+      gap: 8px;
+      margin: 5px 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .daily-chart-row span {
+      text-align: center;
+    }
+
+    .daily-chart-track {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+
+    .daily-chart-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .daily-chart-row strong {
+      color: white;
+      text-align: right;
+    }
+
     .message,
     .rules,
     .log {
@@ -474,12 +575,19 @@ Do not copy, distribute, modify, or commercialize without permission.
     }
 
     .profile-actions {
-        margin-top: 18px;
-      }
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
 
-      .danger-button {
-        width: 100%;
-      }
+    .profile-actions button {
+      width: 100%;
+    }
+
+    .danger-button {
+      width: auto;
+    }
 
     .mini-stat {
       display: flex;
@@ -840,11 +948,12 @@ Do not copy, distribute, modify, or commercialize without permission.
     }
 
     .message {
-      margin: 12px 0 0;
-      min-height: 42px;
-      color: var(--muted);
-      line-height: 1.35;
+      min-height: 18px;
+      margin: 6px 0 10px;
+      text-align: center;
       font-size: 13px;
+      color: var(--muted);
+      opacity: .8;
     }
 
     .log {
@@ -904,6 +1013,15 @@ Do not copy, distribute, modify, or commercialize without permission.
       .topbar {
         position: relative;
       }
+
+    .title-row {
+    gap: 10px;
+  }
+
+  .mode-switch button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
 
       .mobile-top-actions {
         display: flex;
@@ -1205,7 +1323,27 @@ Do not copy, distribute, modify, or commercialize without permission.
 </head>
 <body>
   <div class="topbar">
+
+  <div class="title-row">
     <h1>Entropy</h1>
+
+    <div class="mode-switch">
+      <button id="dailyModeBtn" onclick="switchGameMode('daily')">
+        Daily
+      </button>
+
+      <button
+        id="randomModeBtn"
+        class="random-mode-btn"
+        onclick="switchGameMode('random')"
+      >
+        <span class="desktop-label">Random</span>
+        <span class="mobile-label">🎲</span>
+      </button>
+    </div>
+
+  </div>
+
     <div class="mobile-top-actions">
 
   <button
@@ -1236,50 +1374,49 @@ Do not copy, distribute, modify, or commercialize without permission.
     <p class="tagline">
       A solo abstract strategy game. Move cards through the 4x4 grid using chess piece-like movements to sort cards into the four foundation stacks. Minimize Entropy by building as close to perfectly-ascending stacks as you can.
     </p>
-
     <div class="mobile-hud">
-  <div class="hud-row">
-    <div>
-      <span>Entropy</span>
-      <strong id="mobileScore">0</strong>
-    </div>
+      <div class="hud-row">
+        <div>
+          <span>Entropy</span>
+          <strong id="mobileScore">0</strong>
+        </div>
 
-    <div>
-      <span>Foundation</span>
-      <strong id="mobileCards">0 / 52</strong>
-    </div>
+        <div>
+          <span>Foundation</span>
+          <strong id="mobileCards">0 / 52</strong>
+        </div>
 
-    <div>
-      <span>Moves</span>
-      <strong id="mobileMoves">0</strong>
-    </div>
-  </div>
+        <div>
+          <span>Moves</span>
+          <strong id="mobileMoves">0</strong>
+        </div>
+      </div>
 
-  <div class="hud-row">
-    <div>
-      <span>Streak</span>
-      <strong id="mobileStreak">0</strong>
-    </div>
+      <div class="hud-row">
+        <div>
+          <span>Streak</span>
+          <strong id="mobileStreak">0</strong>
+        </div>
 
-    <div>
-      <span>Best</span>
-      <strong id="mobileBestStreak">0</strong>
-    </div>
+        <div>
+          <span>Best</span>
+          <strong id="mobileBestStreak">0</strong>
+        </div>
 
-    <div>
-      <span>Draw</span>
-      <strong id="mobileDrawPile">0</strong>
-    </div>
-  </div>
+        <div>
+          <span>Draw</span>
+          <strong id="mobileDrawPile">0</strong>
+        </div>
+      </div>
 
-  <div class="hud-buttons">
-    <button onclick="confirmNewGame()">New Game</button>
-    <button class="secondary undo-btn" onclick="undo()">Undo</button>
-    <button class="secondary copy-results-btn" id="mobileCopyResultsBtn" onclick="copyResults()">
-  Copy State
-</button>
-  </div>
-</div>
+      <div class="hud-buttons">
+        <button class="new-game-btn" onclick="confirmNewGame()">New Game</button>
+        <button class="secondary undo-btn" onclick="undo()">Undo</button>
+        <button class="secondary copy-results-btn" id="mobileCopyResultsBtn" onclick="copyResults()">
+      Copy State
+    </button>
+      </div>
+    </div>
 </div>
 
 <div class="layout">
@@ -1292,7 +1429,7 @@ Do not copy, distribute, modify, or commercialize without permission.
 
     <aside class="sidebar">
       <div class="desktop-controls mobile-hide-status">
-        <button onclick="confirmNewGame()">New Game</button>
+        <button class="new-game-btn" onclick="confirmNewGame()">New Game</button>
         <button class="secondary undo-btn" onclick="undo()">Undo</button>
         <button class="secondary" onclick="openTutorial()">How to Play</button>
         <button class="secondary" onclick="openSettingsModal()">Settings</button>
@@ -1432,7 +1569,17 @@ Do not copy, distribute, modify, or commercialize without permission.
         <strong id="modalLongestStreak">0</strong>
       </div>
 
+      <div class="profile-section-title">
+          Daily Shuffle Results
+        </div>
+
+        <div id="dailyEntropyChart" class="daily-chart"></div>
+
       <div class="profile-actions">
+        <button class="secondary" onclick="copyProfileStats()">
+          Copy Profile Stats
+        </button>
+
         <button class="secondary danger-button" onclick="resetStats(); closeProfileModal();">
           Reset Stats
         </button>
@@ -1462,7 +1609,10 @@ Do not copy, distribute, modify, or commercialize without permission.
       </button>
     </div>
 
-    <button class="tutorial-close" onclick="confirmNewGame()">
+    <button
+      class="tutorial-close new-game-btn"
+      onclick="confirmNewGame()"
+    >
       New Game
     </button>
 
@@ -1489,6 +1639,8 @@ Do not copy, distribute, modify, or commercialize without permission.
     let logEntries = [];
     let originalLayout = [];
     let originalShuffle = [];
+    let gameMode = localStorage.getItem("entropy.gameMode") || "daily";
+    let activeDailySeed = currentDailySeed();
     let entropyProfile = {};
     let dragging = null;
     let dragGhost = null;
@@ -1504,7 +1656,8 @@ Do not copy, distribute, modify, or commercialize without permission.
         completedRuns: 0,
         bestScore: null,
         totalEntropy: 0,
-        longestStreak: 0
+        longestStreak: 0,
+        dailyEntropyScores: []
       };
 
       try {
@@ -1519,18 +1672,46 @@ Do not copy, distribute, modify, or commercialize without permission.
       localStorage.setItem("entropy.v2026.05.profile", JSON.stringify(profileStats));
     }
 
+    function dailyEntropyHistogramText() {
+      const buckets = dailyEntropyBuckets();
+      const max = Math.max(...buckets, 1);
+
+      return buckets
+        .map((count, i) => {
+          const label = i === 10
+            ? " >"
+            : String(i).padStart(2, " ");
+
+          const barLength =
+            count === 0
+              ? 0
+              : Math.max(1, Math.round((count / max) * 10));
+
+          const bar = count === 0
+            ? "·"
+            : "█".repeat(barLength);
+
+          return `${label}: ${bar} ${count}`;
+        })
+        .join("\n");
+    }
+
     function resetStats() {
-  if (!confirm("Reset all local Entropy statistics?")) return;
+      if (!confirm("Reset all local Entropy statistics?")) return;
 
-  localStorage.removeItem("entropy.v2026.05.profile");
+      localStorage.removeItem("entropy.v2026.05.profile");
 
-  profileStats = loadProfileStats();
-  render();
+      profileStats = loadProfileStats();
+      render();
 
-  setMessage("Local statistics reset.");
-}
+      setMessage("Local statistics reset.");
+    }
 
 function confirmNewGame() {
+    if (gameMode === "daily") {
+    setMessage("Daily Shuffle can only be played once per day.");
+    return;
+  }
   const hasProgress =
     moves > 0 ||
     completedFoundationCardCount() > 0;
@@ -1573,6 +1754,9 @@ function confirmNewGame() {
             ? score
             : Math.min(profileStats.bestScore, score);
         profileStats.longestStreak = Math.max(profileStats.longestStreak, runBestPerfectStreak);
+        if (gameMode === "daily") {
+          profileStats.dailyEntropyScores.push(score);
+        }
 
         saveProfileStats();
         setMessage(`Run complete. Final entropy: ${score}. Profile stats updated.`);
@@ -1606,7 +1790,14 @@ function confirmNewGame() {
     }
 
     function newGame() {
-      deck = shuffle(makeDeck());
+      if (gameMode === "daily") {
+        deck = seededShuffle(
+          makeDeck(),
+          currentDailySeed()
+        );
+      } else {
+        deck = shuffle(makeDeck());
+      }
       originalShuffle = [...deck].reverse().map(cardText);
       grid = Array.from({ length: 4 }, () => Array(4).fill(null));
       for (let r = 0; r < 4; r++) {
@@ -1638,6 +1829,96 @@ function confirmNewGame() {
       setMessage("New game dealt. Select a card to see legal grid moves, or place it into a foundation.");
       render();
     }
+
+    function activeRunKey(mode = gameMode) {
+      if (mode === "daily") {
+        return `entropy.run.daily.${currentDailySeed()}`;
+      }
+
+      return "entropy.run.random";
+    }
+
+    function saveActiveRun() {
+      localStorage.setItem(activeRunKey(), snapshot());
+    }
+
+    function hasSavedRun(mode = gameMode) {
+      return !!localStorage.getItem(activeRunKey(mode));
+    }
+
+    function loadActiveRun(mode = gameMode) {
+      const saved = localStorage.getItem(activeRunKey(mode));
+      if (!saved) return false;
+
+      restore(saved);
+      return true;
+    }
+
+  function localDateSeed() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function hashSeed(str) {
+  let h = 2166136261;
+
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+
+  return h >>> 0;
+}
+
+function seededRandom(seed) {
+  let t = seed >>> 0;
+
+  return function () {
+    t += 0x6D2B79F5;
+
+    let x = t;
+    x = Math.imul(x ^ (x >>> 15), x | 1);
+    x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function seededShuffle(arr, seedText) {
+  const a = [...arr];
+  const random = seededRandom(hashSeed(seedText));
+
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+
+  return a;
+}
+
+function currentDailySeed() {
+  return localDateSeed();
+}
+
+function switchGameMode(mode) {
+  if (mode === gameMode) return;
+
+  saveActiveRun();
+
+  gameMode = mode;
+  localStorage.setItem("entropy.gameMode", gameMode);
+
+  if (!loadActiveRun(gameMode)) {
+    newGame();
+  }
+
+  render();
+}
 
     function snapshot() {
       return JSON.stringify({ drawPile, grid, foundations, selected, score, moves, logEntries, originalLayout, originalShuffle, currentPerfectStreak, runBestPerfectStreak, runCompleted, usedUnlimitedUndoThisRun, entropyProfile });
@@ -2367,7 +2648,21 @@ gain.gain.exponentialRampToValueAtTime(
       render();
     }
 
+    function checkDailyReset() {
+      if (
+        gameMode === "daily" &&
+        activeDailySeed !== currentDailySeed()
+      ) {
+        activeDailySeed = currentDailySeed();
+
+        if (!loadActiveRun("daily")) {
+          newGame();
+        }
+      }
+    }
+
     function render() {
+      checkDailyReset();
       const gridEl = document.getElementById("grid");
       const fEl = document.getElementById("foundations");
       const legalTargets = legalTargetsForSelected();
@@ -2447,6 +2742,9 @@ gain.gain.exponentialRampToValueAtTime(
           (undoMode === "challenge" && !undoAvailable) ||
           (undoMode === "unlimited" && history.length === 0);
       });
+      document.querySelectorAll(".new-game-btn").forEach(button => {
+        button.disabled = gameMode === "daily";
+      });
 
       const shareLabel =
         completedFoundationCardCount() === 52
@@ -2457,9 +2755,18 @@ gain.gain.exponentialRampToValueAtTime(
         button.textContent = shareLabel;
       });
 
+      if (gameMode === "daily" && activeDailySeed !== currentDailySeed()) {
+        activeDailySeed = currentDailySeed();
+        newGame();
+      }
+
       const logEl = document.getElementById("log");
       logEl.innerHTML = logEntries.map(e => `<div class="log-entry">${e}</div>`).join("");
       logEl.scrollTop = logEl.scrollHeight;
+
+      document.getElementById("dailyModeBtn")?.classList.toggle("active", gameMode === "daily");
+      document.getElementById("randomModeBtn")?.classList.toggle("active", gameMode === "random");
+      saveActiveRun();
     }
 
     function currentGridText() {
@@ -2496,6 +2803,7 @@ gain.gain.exponentialRampToValueAtTime(
 
       return [
         `Entropy: ${score}`,
+        `Mode: ${gameModeLabel()}`,
         "",
         `Entropy Profile: ${entropyProfileText()}`,
         `Moves: ${moves}`,
@@ -2537,6 +2845,7 @@ gain.gain.exponentialRampToValueAtTime(
 
       return [
         `Entropy: ${score}`,
+        `Mode: ${gameModeLabel()}`,
         "",
         `Entropy Profile: ${entropyProfileText()}`,
         `Foundation Cards: ${completedFoundationCardCount()} / 52`,
@@ -2547,8 +2856,37 @@ gain.gain.exponentialRampToValueAtTime(
         `Draw Pile: ${drawPile.length}`,
         `Moves: ${moves}`,
         `Streak (Best/Current): ${runBestPerfectStreak}/${currentPerfectStreak}`,
-        `Mode: ${runUndoModeText()}`
+        `Undo: ${runUndoModeText()}`
       ].join("\n");
+    }
+
+    function buildResultsText() {
+      const foundationTops = foundations
+        .map(stack => {
+          const top = stack[stack.length - 1];
+          return top ? cardText(top) : "__";
+        })
+        .join(" | ");
+
+      return [
+        `Final Entropy: ${score}`,
+        `Mode: ${gameModeLabel()}`,
+        "",
+        `Entropy Profile: ${entropyProfileText()}`,
+        `Foundation Cards: ${completedFoundationCardCount()} / 52`,
+        `Foundations: ${foundationTops}`,
+        `Moves: ${moves}`,
+        `Best Streak: ${runBestPerfectStreak}`,
+        `Undo: ${runUndoModeText()}`
+      ].join("\n");
+    }
+
+    function gameModeLabel() {
+      if (gameMode === "daily") {
+        return `Daily Shuffle (${currentDailySeed()})`;
+      }
+
+      return "Random Shuffle";
     }
 
     function runUndoModeText() {
@@ -2569,42 +2907,83 @@ gain.gain.exponentialRampToValueAtTime(
       const foundationLine = foundations
         .map(stack => {
           const top = stack[stack.length - 1];
-          return padCell(top ? cardText(top) : "__");
+          return padCell(top ? cardText(top) : "____");
         })
         .join(" | ");
 
       const gridLines = grid.map(row => {
         return row
-          .map(card => padCell(card ? cardText(card) : "__"))
+          .map(card => padCell(card ? cardText(card) : "____"))
           .join(" | ");
       });
 
       return [
         foundationLine,
-        "---------------------",
+        "--------------------------",
         ...gridLines
       ].join("\n");
     }
 
-    function buildResultsText() {
-      const foundationTops = foundations
-        .map(stack => {
-          const top = stack[stack.length - 1];
-          return top ? cardText(top) : "__";
-        })
-        .join(" | ");
+    function buildProfileStatsText() {
+  const avg = averageEntropy();
 
-      return [
-        `Final Entropy: ${score}`,
-        "",
-        `Entropy Profile: ${entropyProfileText()}`,
-        `Foundation Cards: ${completedFoundationCardCount()} / 52`,
-        `Foundations: ${foundationTops}`,
-        `Moves: ${moves}`,
-        `Best Streak: ${runBestPerfectStreak}`,
-        `Mode: ${runUndoModeText()}`
-      ].join("\n");
-    }
+  return [
+    "Entropy Profile Stats",
+    `Best Score: ${profileStats.bestScore === null ? "—" : profileStats.bestScore}`,
+    `Average Entropy: ${avg === null ? "—" : avg.toFixed(1)}`,
+    `Completed Plays: ${profileStats.completedRuns}`,
+    `Longest Streak: ${profileStats.longestStreak}`,
+    "",
+    "Daily Shuffle Results",
+    dailyEntropyHistogramText()
+  ].join("\n");
+}
+
+function dailyEntropyBuckets() {
+  const buckets = Array(11).fill(0);
+
+  profileStats.dailyEntropyScores.forEach(score => {
+    const bucket = score >= 10 ? 10 : score;
+    buckets[bucket]++;
+  });
+
+  return buckets;
+}
+
+function renderDailyEntropyChart() {
+  const chart = document.getElementById("dailyEntropyChart");
+  if (!chart) return;
+
+  const buckets = dailyEntropyBuckets();
+  const max = Math.max(...buckets, 1);
+
+  chart.innerHTML = buckets.map((count, i) => {
+    const label = i === 10 ? "10+" : i;
+    const width = count === 0 ? 0 : Math.max(8, (count / max) * 100);
+
+    return `
+      <div class="daily-chart-row">
+        <span>${label}</span>
+        <div class="daily-chart-track">
+          <div class="daily-chart-bar" style="width:${width}%"></div>
+        </div>
+        <strong>${count}</strong>
+      </div>
+    `;
+  }).join("");
+}
+
+async function copyProfileStats() {
+  const text = buildProfileStatsText();
+
+  try {
+    await navigator.clipboard.writeText(text);
+    setMessage("Profile stats copied to clipboard.");
+  } catch (err) {
+    console.log(text);
+    setMessage("Clipboard copy failed, but the profile stats were printed to the browser console.");
+  }
+}
 
     function compactGridStateText() {
   return grid
@@ -2671,6 +3050,8 @@ gain.gain.exponentialRampToValueAtTime(
 
       document.getElementById("modalLongestStreak").textContent =
         profileStats.longestStreak;
+
+      renderDailyEntropyChart();
 
       document.getElementById("profileModal").classList.add("open");
     }
@@ -2822,14 +3203,27 @@ function closeCompletionModal() {
       },
 
       {
+        title: "Game Modes",
+        body:
+        `
+        <b>Daily Shuffle</b><br>
+        One shared shuffle each day. Everyone plays the same deal.<br><br>
+
+        Daily runs can only be completed once per day.<br><br>
+
+        <b>Random Shuffle🎲</b><br>
+        Unlimited runs with randomly generated shuffles. Results still contribute to your overall profile stats.
+        `
+
+      },
+
+      {
         title: "Strategy",
         body:
         `
         Manage your grid carefully.<br>
         Advance cards from the back row strategically.<br>
         Beware the endgame.<br><br>
-
-        <strong>Some runs can be perfected. Others only survived.</strong>
       `
       }
     ];
@@ -2893,7 +3287,11 @@ function closeCompletionModal() {
       }
     });
 
-    newGame();
+    if (!loadActiveRun(gameMode)) {
+      newGame();
+    } else {
+      render();
+    }
   </script>
 </body>
 </html>
